@@ -1,3 +1,3 @@
 <template>
-  <div>Contenido en construcción --home-- </div>
+  <div>Contenido en construcción --home--</div>
 </template>
