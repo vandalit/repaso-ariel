@@ -1,30 +1,26 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
-import OpinionesView from '../views/OpinionesView.vue';
-import AdministracionView from '../views/AdministracionView.vue';
-import NotFound from '../views/NotFound.vue';
 
 const routes = [
   {
-    path: '/',
+    path: '/', // Página de inicio
     name: 'Home',
-    component: HomeView,
+    component: () => import('../views/HomeView.vue'), // Lazy loaded
   },
   {
-    path: '/opiniones/:gameName?',
+    path: '/opiniones/:gameName?', // Ruta dinámica para opiniones
     name: 'Opiniones',
-    component: OpinionesView,
+    component: () => import('../views/OpinionesView.vue'),
     props: true,
   },
   {
-    path: '/administracion',
+    path: '/administracion', // Página de administración
     name: 'Administracion',
-    component: AdministracionView,
+    component: () => import('../views/AdministracionView.vue'),
   },
   {
-    path: '/:pathMatch(.*)*',
+    path: '/:pathMatch(.*)*', // Ruta para errores 404
     name: 'NotFound',
-    component: NotFound,
+    component: () => import('../views/NotFound.vue'),
   },
 ];
 

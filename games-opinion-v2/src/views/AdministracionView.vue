@@ -10,13 +10,19 @@
       <h2>Resumen de tu cuenta</h2>
       <p>Nombre: {{ usuario.nombre }}</p>
       <p>Apellido: {{ usuario.apellido }}</p>
+      <ProgressBar />
     </div>
   </div>
 </template>
 
 <script>
+import ProgressBar from '../components/ProgressBar.vue';
+
 export default {
   name: 'AdministracionView',
+  components: {
+    ProgressBar,
+  },
   data() {
     return {
       nombre: '',
@@ -34,7 +40,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 form {
   display: flex;
