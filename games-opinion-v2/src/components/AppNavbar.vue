@@ -15,16 +15,24 @@
   
   <style scoped>
   nav {
-    background-color: #333;
+    background-color: #2c0033;
     padding: 10px;
   }
   ul {
     list-style: none;
     display: flex;
     gap: 10px;
+
   }
   li {
     color: white;
+  }
+  a {
+    text-decoration: none;
+    color: white;
+  }
+  a:hover {
+    color: yellowgreen;
   }
   </style>
   
