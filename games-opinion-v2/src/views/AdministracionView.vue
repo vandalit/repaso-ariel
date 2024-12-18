@@ -2,20 +2,31 @@
   <div>
     <h1>Vista de Administración</h1>
 
-    <!-- Formulario para registrar el usuario -->
-    <form @submit.prevent="registrarUsuario">
+    <!-- Registro de usuario -->
+    <form v-if="!usuario" @submit.prevent="registrarUsuario">
       <input v-model="nombre" placeholder="Nombre" required />
       <input v-model="apellido" placeholder="Apellido" required />
       <button type="submit">Registrar</button>
     </form>
 
+    <!-- Login de usuario -->
+    <form v-if="!usuario && usuariosGuardados.length > 0" @submit.prevent="loginUsuario">
+      <h3>Inicia sesión</h3>
+      <select v-model="usuarioSeleccionado">
+        <option disabled value="">Selecciona un usuario</option>
+        <option v-for="(usuario, index) in usuariosGuardados" :key="index" :value="usuario">
+          {{ usuario.nombre }} {{ usuario.apellido }}
+        </option>
+      </select>
+      <button type="submit">Iniciar sesión</button>
+    </form>
+
     <!-- Resumen del usuario -->
     <div v-if="usuario">
-      <h2>Resumen de tu cuenta</h2>
-      <p>Nombre: {{ usuario.nombre }}</p>
-      <p>Apellido: {{ usuario.apellido }}</p>
+      <h2>Bienvenido, {{ usuario.nombre }} {{ usuario.apellido }}</h2>
+      <button @click="logoutUsuario">Cerrar sesión</button>
 
-      <!-- Mostrar la actividad del usuario -->
+      <!-- Mostrar actividad del usuario -->
       <div v-if="actividad.length > 0">
         <h3>Tu actividad</h3>
         <ul>
@@ -38,12 +49,20 @@ export default {
     return {
       nombre: '',
       apellido: '',
-      usuario: null,
-      actividad: [], // Lista de comentarios realizados por el usuario
+      usuario: null, // Usuario actual en sesión
+      usuariosGuardados: [], // Lista de usuarios registrados
+      usuarioSeleccionado: '', // Usuario seleccionado para login
+      actividad: [], // Actividad del usuario actual
     };
   },
   created() {
-    // Cargar usuario desde localStorage
+    // Cargar usuarios desde localStorage
+    const storedUsers = localStorage.getItem('usuarios');
+    if (storedUsers) {
+      this.usuariosGuardados = JSON.parse(storedUsers);
+    }
+
+    // Cargar usuario en sesión
     const storedUser = localStorage.getItem('usuario');
     if (storedUser) {
       this.usuario = JSON.parse(storedUser);
@@ -53,28 +72,38 @@ export default {
   methods: {
     registrarUsuario() {
       if (this.nombre.trim() && this.apellido.trim()) {
-        // Guardar usuario en data y localStorage
-        this.usuario = {
+        const nuevoUsuario = {
           nombre: this.nombre,
           apellido: this.apellido,
         };
+        this.usuariosGuardados.push(nuevoUsuario);
+        localStorage.setItem('usuarios', JSON.stringify(this.usuariosGuardados));
+        alert('Usuario registrado correctamente. Inicia sesión con tu cuenta.');
+      }
+    },
+    loginUsuario() {
+      if (this.usuarioSeleccionado) {
+        this.usuario = this.usuarioSeleccionado;
         localStorage.setItem('usuario', JSON.stringify(this.usuario));
         this.cargarActividad();
-        alert('Usuario registrado correctamente.');
+        alert(`Bienvenido de nuevo, ${this.usuario.nombre} ${this.usuario.apellido}.`);
       }
+    },
+    logoutUsuario() {
+      this.usuario = null;
+      localStorage.removeItem('usuario');
+      alert('Has cerrado sesión.');
     },
     cargarActividad() {
       const actividad = [];
-      // Iterar sobre todas las claves en localStorage
+      // Iterar claves en localStorage para buscar opiniones
       for (const key in localStorage) {
         if (key.startsWith('opiniones_')) {
-          // Obtener comentarios almacenados para cada juego
           const opiniones = JSON.parse(localStorage.getItem(key)) || [];
           opiniones.forEach((opinion) => {
-            // Filtrar solo los comentarios del usuario actual
             if (opinion.usuario === `${this.usuario.nombre} ${this.usuario.apellido}`) {
               actividad.push({
-                juego: key.replace('opiniones_', ''), // Extraer el nombre del juego de la clave
+                juego: key.replace('opiniones_', ''),
                 text: opinion.text,
               });
             }
@@ -93,13 +122,13 @@ form {
   flex-direction: column;
   gap: 10px;
 }
-input {
+input, select {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 button {
-  background-color: #28a745;
+  background-color: #007bff;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -107,7 +136,7 @@ button {
   cursor: pointer;
 }
 button:hover {
-  background-color: #218838;
+  background-color: #0056b3;
 }
 h3 {
   margin-top: 20px;
