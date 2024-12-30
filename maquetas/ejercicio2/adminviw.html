@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .bg-purple {
+          background-color: #9C27B0; /* O el tono exacto de morado que se requiera */
+        }
+        .navbar-brand {
+          font-weight: bold;
+        }
+        .card {
+          box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+          border: none;
+          border-radius: 6px;
+        }
+      </style>
+</head>
+<body>
+    <!-- Simulación de la sección Admin (puede estar en otra vista) -->
+<div class="container my-4">
+    <h1 class="text-center">Administración</h1>
+  
+    <div class="text-center mt-3 mb-3">
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarCurso">
+        AGREGAR CURSO
+      </button>
+    </div>
+  
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th>Curso</th>
+          <th>Cupos</th>
+          <th>Inscritos</th>
+          <th>Duración</th>
+          <th>Costo</th>
+          <th>Terminado</th>
+          <th>Fecha</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>JavaScript Avanzado</td>
+          <td>20</td>
+          <td>10</td>
+          <td>2 meses</td>
+          <td><span class="badge bg-success">$30000</span></td>
+          <td><span class="badge bg-secondary">No</span></td>
+          <td>06/03/2022</td>
+          <td>
+            <button class="btn btn-warning btn-sm me-1">
+              <i class="bi bi-pencil-fill"></i>
+            </button>
+            <button class="btn btn-danger btn-sm">
+              <i class="bi bi-trash-fill"></i>
+            </button>
+          </td>
+        </tr>
+        <!-- Repetir para otras filas -->
+      </tbody>
+    </table>
+  
+    <!-- Sección de totales/informes -->
+    <div class="mt-4">
+      <div class="alert alert-purple text-dark" role="alert">
+        Cantidad total de alumnos permitidos: 190 alumnos.
+      </div>
+      <div class="alert alert-info" role="alert">
+        Cantidad total de alumnos inscritos: 103 alumnos.
+      </div>
+      <div class="alert alert-danger" role="alert">
+        Cantidad total de cupos restantes: 87 alumnos.
+      </div>
+      <!-- etc. con cada color y texto -->
+    </div>
+  </div>
+  
+  <!-- Modal Agregar Curso -->
+  <div class="modal fade" id="modalAgregarCurso" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <form>
+        <div class="modal-content">
+          <div class="modal-header bg-purple text-white">
+            <h5 class="modal-title">AGREGAR CURSO</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <!-- Campos del formulario -->
+            <div class="mb-3">
+              <label class="form-label">Nombre</label>
+              <input type="text" class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">URL de la imagen</label>
+              <input type="text" class="form-control" />
+            </div>
+            <!-- Repetir para Cupos, Inscritos, Duración, Fecha, Costo, Descripción, etc. -->
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-success" type="submit">AGREGAR</button>
+            <button class="btn btn-warning" type="button">LIMPIAR FORMULARIO</button>
+            <button class="btn btn-danger" type="button" data-bs-dismiss="modal">CANCELAR</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+</body>
+</html>
