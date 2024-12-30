@@ -8,6 +8,7 @@
 
     <main class="container mt-4">
       <p>Contenido inicial de la aplicación</p>
+      <router-view />
     </main>
     <AppFooter />
   </div>
