@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import AdminView from '@/views/AdminView.vue'
+import NotFoundView from '@/views/NotFound.vue'
 
 const routes = [
   {
@@ -13,16 +14,15 @@ const routes = [
     name: 'Admin',
     component: AdminView
   },
-    // Opcional: ruta para 404
-  // {
-  //   path: '/:pathMatch(.*)*',
-  //   name: 'NotFound',
-  //   component: NotFoundView
-  // }
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: NotFoundView
+  }
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   routes
 })
 
